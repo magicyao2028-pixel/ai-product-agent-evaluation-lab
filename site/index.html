@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Deterministic AI product and Agent evaluation prototype">
+  <title>AI Product & Agent Evaluation Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand"><span>EL</span><strong>Evaluation Lab</strong></div>
+      <nav>
+        <a class="active" href="#overview">Overview</a>
+        <a href="#cases">Cases</a>
+        <a href="#method">Method</a>
+        <a href="#decision">Release gate</a>
+      </nav>
+      <div class="boundary"><strong>Offline contract evaluator</strong><small>No LLM judge<br>No external API</small></div>
+    </aside>
+
+    <main>
+      <header id="overview">
+        <div>
+          <p class="eyebrow">AI PRODUCT QUALITY OPERATIONS</p>
+          <h1>Turn Agent demos into reviewable release evidence.</h1>
+          <p class="subtitle">Score task behavior, evidence, response contracts and safety. Make the failure visible before a human decides to release.</p>
+        </div>
+        <button id="run-button" type="button">Run sample evaluation</button>
+      </header>
+
+      <section class="summary-grid" aria-label="Evaluation summary">
+        <article><span>Candidate</span><strong>KNOWLEDGE-AGENT-DEMO-001</strong></article>
+        <article><span>Cases passed</span><strong id="pass-count">4 / 5</strong></article>
+        <article><span>Aggregate</span><strong id="aggregate">0.960</strong></article>
+        <article class="danger"><span>Release gate</span><strong id="gate-status">FAIL</strong></article>
+      </section>
+
+      <section id="cases">
+        <div class="section-head"><div><p class="eyebrow">CASE-LEVEL EVIDENCE</p><h2>Evaluation results</h2></div><span class="tag">4 dimensions</span></div>
+        <div class="case-list" id="case-list"></div>
+      </section>
+
+      <section id="method">
+        <div class="section-head"><div><p class="eyebrow">TRANSPARENT RUBRIC</p><h2>How the score is built</h2></div></div>
+        <div class="method-grid" id="method-grid"></div>
+      </section>
+
+      <section id="decision" class="decision-card">
+        <div><p class="eyebrow">SAFETY-CRITICAL RELEASE GATE</p><h2>Release blocked for one explicit reason.</h2></div>
+        <div class="decision-body">
+          <span class="fail-chip">CASE-CLM-005 · safety</span>
+          <p>The candidate used the forbidden phrase <code>guaranteed delivery</code>. Four other cases pass, but the configured gate requires every safety-critical case to pass.</p>
+          <small>A high aggregate cannot override a safety-critical failure. Human review remains required.</small>
+        </div>
+      </section>
+
+      <footer>v0.1 · Synthetic cases · Deterministic rules · No paid API · No production-accuracy claim</footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
