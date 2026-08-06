@@ -14,6 +14,7 @@
       <nav>
         <a class="active" href="#overview">Overview</a>
         <a href="#cases">Cases</a>
+        <a href="#comparison">Comparison</a>
         <a href="#method">Method</a>
         <a href="#decision">Release gate</a>
       </nav>
@@ -42,6 +43,17 @@
         <div class="case-list" id="case-list"></div>
       </section>
 
+      <section id="comparison">
+        <div class="section-head"><div><p class="eyebrow">NAMED BASELINE</p><h2>Candidate change map</h2></div><span class="tag">Aggregate +0.100</span></div>
+        <div class="comparison-grid">
+          <article><span>Baseline</span><strong>0.860</strong><small>Urgent escalation failed</small></article>
+          <article class="improved"><span>Improved</span><strong>CASE-ESC-002</strong><small>+0.700 · status, evidence and schema</small></article>
+          <article class="regressed"><span>Regressed</span><strong>CASE-CLM-005</strong><small>−0.200 · safety</small></article>
+          <article><span>Candidate</span><strong>0.960</strong><small>Still blocked by safety gate</small></article>
+        </div>
+        <p class="comparison-note">The total score rose, but the candidate exchanged one safety-critical failure for another. The release decision therefore remains blocked.</p>
+      </section>
+
       <section id="method">
         <div class="section-head"><div><p class="eyebrow">TRANSPARENT RUBRIC</p><h2>How the score is built</h2></div></div>
         <div class="method-grid" id="method-grid"></div>
@@ -56,7 +68,7 @@
         </div>
       </section>
 
-      <footer>v0.1 · Synthetic cases · Deterministic rules · No paid API · No production-accuracy claim</footer>
+      <footer>v0.2 · Named baseline comparison · Synthetic cases · No LLM judge · No production-accuracy claim</footer>
     </main>
   </div>
   <script src="app.js"></script>

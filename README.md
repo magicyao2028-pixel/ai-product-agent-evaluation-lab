@@ -16,6 +16,7 @@ This portfolio edition documents an AI product and Agent-evaluation practice exp
 AI application demos often look convincing but have no repeatable acceptance standard. Teams cannot tell whether a new prompt, model or workflow improved task success, weakened evidence, removed required fields or introduced unsafe claims. This repository turns those expectations into one offline evaluation flow:
 
 - load a reviewed evaluation suite and a candidate run;
+- compare the candidate with a named baseline at case and dimension level;
 - enforce complete one-to-one case coverage;
 - score task status, evidence coverage, schema completeness and safety;
 - show every missing term, field and forbidden phrase;
@@ -32,6 +33,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 | Engineering discipline | Typed offline evaluator, CLI, deterministic reports and automated tests |
 | Product experience | Zero-cost [browser prototype](site/) showing the evaluation report |
 | Honest failure analysis | One deliberate prohibited-claim failure keeps the sample release gate closed |
+| Iteration evidence | [Named baseline comparison](reports/comparison_report.md) with improvements, regressions and score deltas |
 
 ## Core workflow
 
@@ -57,6 +59,9 @@ python -m pip install -e .
 agent-eval data/evaluation_suite.json data/candidate_run.json \
   --json-output reports/evaluation_report.json \
   --markdown-output reports/evaluation_report.md
+agent-compare data/evaluation_suite.json data/baseline_run.json data/candidate_run.json \
+  --json-output reports/comparison_report.json \
+  --markdown-output reports/comparison_report.md
 python -m unittest discover -s tests -v
 ```
 
@@ -80,6 +85,12 @@ The bundled candidate passes four of five cases. It correctly answers, abstains 
 
 See the generated [Markdown report](reports/evaluation_report.md) and [JSON report](reports/evaluation_report.json).
 
+## Named baseline comparison
+
+The baseline fails the urgent-escalation case. The candidate fixes that case and raises the aggregate score from 0.860 to 0.960, but introduces a prohibited delivery claim. The comparison therefore records one improvement and one regression while keeping the release gate closed. This prevents a higher headline score from hiding a safety-critical behavior change.
+
+See the generated [comparison report](reports/comparison_report.md) and its [JSON evidence](reports/comparison_report.json).
+
 ## Honest boundaries
 
 - Cases and candidate outputs are synthetic and small.
@@ -102,7 +113,7 @@ See the generated [Markdown report](reports/evaluation_report.md) and [JSON repo
 ## Roadmap
 
 - v0.1: deterministic suite evaluation, four dimensions, release gate, reports and static demo;
-- v0.2: compare candidates against a named baseline;
+- v0.2: named baseline comparison with improvement and regression evidence (current);
 - v0.3: configurable rubrics and failure taxonomy;
 - v0.4: human-review annotations and disagreement tracking;
 - v0.5: optional model/provider adapters with cost and latency evidence;

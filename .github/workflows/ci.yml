@@ -21,6 +21,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Rebuild evaluation report
         run: agent-eval data/evaluation_suite.json data/candidate_run.json --json-output output/report.json --markdown-output output/report.md
+      - name: Rebuild baseline comparison
+        run: agent-compare data/evaluation_suite.json data/baseline_run.json data/candidate_run.json --json-output output/comparison.json --markdown-output output/comparison.md
 
   validate-static-site:
     runs-on: ubuntu-latest
