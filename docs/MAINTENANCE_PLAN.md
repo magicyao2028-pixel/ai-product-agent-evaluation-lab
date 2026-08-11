@@ -5,7 +5,7 @@ The initial repository is intentionally limited. Each round must add implementat
 | Round | Planned capability | Status |
 | --- | --- | --- |
 | M1 | Named baseline and candidate-comparison report | Complete |
-| M2 | Configurable rubric weights and threshold validation | Planned |
+| M2 | Configurable rubric weights and threshold validation | Complete in v0.3.0 |
 | M3 | Failure taxonomy and trend summary | Planned |
 | M4 | Human-review annotations and disagreement tracking | Planned |
 | M5 | Batch evaluation history and local persistence | Planned |

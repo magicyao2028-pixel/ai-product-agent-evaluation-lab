@@ -3,6 +3,7 @@
 - Suite: `SMB-KNOWLEDGE-AGENT-V1`
 - Baseline: `KNOWLEDGE-AGENT-BASELINE-000`
 - Candidate: `KNOWLEDGE-AGENT-DEMO-001`
+- Rubric: `smb-agent-release-v1` v1.0
 - Aggregate: **0.860 → 0.960** (+0.100)
 - Candidate release gate: **FAIL**
 

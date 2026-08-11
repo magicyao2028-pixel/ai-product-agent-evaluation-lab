@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Product | AI Product & Agent Evaluation Lab |
-| Version | 0.2 |
+| Version | 0.3 |
 | Status | Product-validation MVP |
 | Primary user | AI product owner or operations lead in a small or medium-sized enterprise |
 | Public data policy | Synthetic evaluation cases and candidate outputs only |
@@ -18,9 +18,9 @@ An AI workflow can look useful in a demonstration while failing repeatable busin
 
 If a team converts acceptance expectations into a small reviewed suite and obtains an explainable report before release, it can identify obvious regressions earlier and discuss risk using concrete evidence rather than impressions.
 
-This hypothesis has not been validated with real teams. v0.2 tests deterministic product behavior and iteration comparison only.
+This hypothesis has not been validated with real teams. v0.3 tests deterministic behavior, comparison and rubric governance only.
 
-## 4. v0.2 scope
+## 4. v0.3 scope
 
 ### In scope
 
@@ -33,6 +33,9 @@ This hypothesis has not been validated with real teams. v0.2 tests deterministic
 7. Run without a paid API or external data transfer.
 8. Classify case-level improvements, regressions and unchanged behavior.
 9. Keep safety-critical regressions visible even when the aggregate score rises.
+10. Load a versioned rubric with explicit weights, case threshold, dimension floors and release gate.
+11. Reject incomplete, unknown, non-finite, out-of-range or unbalanced rubric settings.
+12. Report the effective rubric and weighted contribution used for every case score.
 
 ### Out of scope
 
@@ -54,6 +57,9 @@ This hypothesis has not been validated with real teams. v0.2 tests deterministic
 | FR-06 | Preserve boundaries | Must | Reports state that deterministic fixtures are not production accuracy. |
 | FR-07 | Compare baseline | Must | Every case shows baseline, candidate, delta and changed dimensions. |
 | FR-08 | Preserve regression | Must | Aggregate improvement cannot convert a failed candidate gate into a pass. |
+| FR-09 | Validate rubric | Must | Invalid weights or thresholds fail before scoring begins. |
+| FR-10 | Explain score formula | Must | Every case names the rubric and shows weights and contributions. |
+| FR-11 | Compare consistently | Must | Baseline and candidate use one identical effective rubric. |
 
 ## 6. Release gate
 

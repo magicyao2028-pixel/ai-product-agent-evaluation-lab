@@ -1,6 +1,6 @@
 # System Architecture
 
-## v0.2 design goals
+## v0.3 design goals
 
 - deterministic and reproducible evaluation;
 - no paid runtime dependency;
@@ -16,8 +16,10 @@ flowchart TB
     S[Evaluation suite] --> L
     C[Candidate run] --> L
     B[Named baseline run] --> L
+    R[Versioned rubric] --> RV[Strict rubric validator]
     L --> V[Coverage and contract validation]
     V --> D[Four-dimension evaluator]
+    RV --> D
     D --> G[Release-gate decision]
     G --> J[JSON report]
     G --> M[Markdown report]
@@ -34,10 +36,15 @@ flowchart TB
 | `cli.py` | Provide file input and report-output arguments. |
 | `comparison.py` | Compare named baseline and candidate reports without hiding regressions in aggregate scores. |
 | `comparison_cli.py` | Provide baseline/candidate file input and comparison-report output. |
+| `rubric.py` | Validate versioned weights, thresholds, dimension floors and release-gate settings. |
 | `data/` | Store the synthetic suite, named baseline and candidate run. |
 | `reports/` | Preserve reproducible public evaluation evidence. |
 | `site/` | Explain the report without a server or model call. |
 
 ## Future production architecture
 
-A later service may add authenticated project storage, job execution, provider adapters, multiple-baseline trends, reviewer annotations, cost/latency telemetry and audit events. Those concerns remain outside v0.2 so the repository stays inspectable.
+A later service may add authenticated project storage, job execution, provider adapters, multiple-baseline trends, reviewer annotations, cost/latency telemetry and audit events. Those concerns remain outside v0.3 so the repository stays inspectable.
+
+## Rubric boundary
+
+The evaluator receives an already validated `RubricConfig`. Both baseline and candidate use that same object. Each case stores the rubric ID, weights, weighted contributions, case threshold and dimension floors used for its score; the comparison report repeats the shared effective rubric.

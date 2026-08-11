@@ -13,12 +13,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("candidate", type=Path, help="Candidate-run JSON")
     parser.add_argument("--json-output", type=Path)
     parser.add_argument("--markdown-output", type=Path)
+    parser.add_argument("--rubric", type=Path, help="Optional validated rubric JSON")
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    report = evaluate_files(args.suite, args.candidate)
+    report = evaluate_files(args.suite, args.candidate, args.rubric)
     if args.json_output or args.markdown_output:
         json_path = args.json_output or Path("reports/evaluation_report.json")
         markdown_path = args.markdown_output or Path("reports/evaluation_report.md")

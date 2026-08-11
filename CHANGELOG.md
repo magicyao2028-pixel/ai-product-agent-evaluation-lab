@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 - 2026-08-11
+
+- added a validated rubric schema for dimension weights, case thresholds, dimension floors and release gates;
+- preserved deterministic defaults while allowing an explicit rubric file in both evaluation CLIs;
+- added per-case weighted contributions and effective-rubric identity to every score;
+- required comparison runs to evaluate baseline and candidate under one identical rubric;
+- added seven focused rubric and threshold validation tests.
+
 ## 0.2.0 - 2026-08-06
 
 - added a named synthetic baseline run;

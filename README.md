@@ -18,6 +18,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 - load a reviewed evaluation suite and a candidate run;
 - compare the candidate with a named baseline at case and dimension level;
 - enforce complete one-to-one case coverage;
+- validate an explicit rubric before scoring;
 - score task status, evidence coverage, schema completeness and safety;
 - show every missing term, field and forbidden phrase;
 - apply an explicit aggregate and safety-critical release gate;
@@ -34,6 +35,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 | Product experience | Zero-cost [browser prototype](site/) showing the evaluation report |
 | Honest failure analysis | One deliberate prohibited-claim failure keeps the sample release gate closed |
 | Iteration evidence | [Named baseline comparison](reports/comparison_report.md) with improvements, regressions and score deltas |
+| Rubric governance | Versioned weights, case thresholds, dimension floors, release gates and per-score contributions |
 
 ## Core workflow
 
@@ -41,7 +43,8 @@ AI application demos often look convincing but have no repeatable acceptance sta
 flowchart LR
     S[Reviewed evaluation suite] --> V[Validate case contracts]
     R[Candidate Agent run] --> V
-    V --> E[Score four dimensions]
+    V --> R[Validate effective rubric]
+    R --> E[Score four dimensions]
     E --> F[Explain case failures]
     F --> G{Release gate}
     G -->|Pass| H[Human release review]
@@ -57,9 +60,11 @@ Requirements: Python 3.10 or later. No third-party runtime dependency is require
 ```bash
 python -m pip install -e .
 agent-eval data/evaluation_suite.json data/candidate_run.json \
+  --rubric data/rubric.json \
   --json-output reports/evaluation_report.json \
   --markdown-output reports/evaluation_report.md
 agent-compare data/evaluation_suite.json data/baseline_run.json data/candidate_run.json \
+  --rubric data/rubric.json \
   --json-output reports/comparison_report.json \
   --markdown-output reports/comparison_report.md
 python -m unittest discover -s tests -v
@@ -85,6 +90,8 @@ The bundled candidate passes four of five cases. It correctly answers, abstains 
 
 See the generated [Markdown report](reports/evaluation_report.md) and [JSON report](reports/evaluation_report.json).
 
+Every report names the effective rubric and records the weights, weighted contribution, case threshold and mandatory dimension floors used for each case score. Invalid, missing, unknown, non-finite or unbalanced rubric values fail before evaluation starts.
+
 ## Named baseline comparison
 
 The baseline fails the urgent-escalation case. The candidate fixes that case and raises the aggregate score from 0.860 to 0.960, but introduces a prohibited delivery claim. The comparison therefore records one improvement and one regression while keeping the release gate closed. This prevents a higher headline score from hiding a safety-critical behavior change.
@@ -105,6 +112,7 @@ See the generated [comparison report](reports/comparison_report.md) and its [JSO
 - [Product requirements](docs/PRD.md)
 - [System architecture](docs/ARCHITECTURE.md)
 - [Evaluation method](docs/EVALUATION_METHOD.md)
+- [Rubric configuration](docs/RUBRIC_CONFIGURATION.md)
 - [Security and governance](docs/SECURITY.md)
 - [Maintenance plan](docs/MAINTENANCE_PLAN.md)
 - [Current handoff](HANDOFF.md)
@@ -113,10 +121,11 @@ See the generated [comparison report](reports/comparison_report.md) and its [JSO
 ## Roadmap
 
 - v0.1: deterministic suite evaluation, four dimensions, release gate, reports and static demo;
-- v0.2: named baseline comparison with improvement and regression evidence (current);
-- v0.3: configurable rubrics and failure taxonomy;
-- v0.4: human-review annotations and disagreement tracking;
-- v0.5: optional model/provider adapters with cost and latency evidence;
+- v0.2: named baseline comparison with improvement and regression evidence;
+- v0.3: configurable rubrics and strict threshold validation (current);
+- v0.4: failure taxonomy and trend summary;
+- v0.5: human-review annotations and disagreement tracking;
+- v0.6: optional model/provider adapters with cost and latency evidence;
 - v1.0: controlled private pilot with reviewed domain cases.
 
 ## License

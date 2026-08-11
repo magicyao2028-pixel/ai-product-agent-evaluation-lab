@@ -5,16 +5,26 @@ from pathlib import Path
 from typing import Any
 
 from .evaluator import evaluate_run, load_json
+from .rubric import RubricConfig, load_rubric
 
 
-def compare_files(suite_path: Path, baseline_path: Path, candidate_path: Path) -> dict[str, Any]:
-    return compare_runs(load_json(suite_path), load_json(baseline_path), load_json(candidate_path))
+def compare_files(
+    suite_path: Path,
+    baseline_path: Path,
+    candidate_path: Path,
+    rubric_path: Path | None = None,
+) -> dict[str, Any]:
+    rubric = load_rubric(rubric_path) if rubric_path else None
+    return compare_runs(
+        load_json(suite_path), load_json(baseline_path), load_json(candidate_path), rubric
+    )
 
 
 def compare_runs(
     suite: dict[str, Any],
     baseline: dict[str, Any],
     candidate: dict[str, Any],
+    rubric: RubricConfig | None = None,
 ) -> dict[str, Any]:
     baseline_id = str(baseline.get("candidate_id", "")).strip()
     candidate_id = str(candidate.get("candidate_id", "")).strip()
@@ -23,8 +33,8 @@ def compare_runs(
     if baseline_id == candidate_id:
         raise ValueError("Baseline and candidate IDs must be different")
 
-    baseline_report = evaluate_run(suite, baseline)
-    candidate_report = evaluate_run(suite, candidate)
+    baseline_report = evaluate_run(suite, baseline, rubric)
+    candidate_report = evaluate_run(suite, candidate, rubric)
     baseline_cases = {item["case_id"]: item for item in baseline_report["cases"]}
     case_deltas = []
     for candidate_case in candidate_report["cases"]:
@@ -55,6 +65,7 @@ def compare_runs(
             "candidate_passed": candidate_case["passed"],
             "changed_dimensions": changed_dimensions,
             "candidate_failed_dimensions": candidate_case["failed_dimensions"],
+            "rubric_id": candidate_case["score_calculation"]["rubric_id"],
         })
 
     aggregate_delta = round(
@@ -64,11 +75,12 @@ def compare_runs(
     improvements = [item["case_id"] for item in case_deltas if item["classification"] == "improved"]
     regressions = [item["case_id"] for item in case_deltas if item["classification"] == "regressed"]
     return {
-        "comparison_version": "0.1",
+        "comparison_version": "0.3",
         "suite_id": baseline_report["suite_id"],
         "baseline_id": baseline_id,
         "candidate_id": candidate_id,
         "method": "deterministic case-score comparison; no LLM judge",
+        "effective_rubric": candidate_report["effective_rubric"],
         "summary": {
             "baseline_aggregate_score": baseline_report["summary"]["aggregate_score"],
             "candidate_aggregate_score": candidate_report["summary"]["aggregate_score"],
@@ -104,6 +116,7 @@ def write_comparison(report: dict[str, Any], json_path: Path, markdown_path: Pat
         f"- Suite: `{report['suite_id']}`",
         f"- Baseline: `{report['baseline_id']}`",
         f"- Candidate: `{report['candidate_id']}`",
+        f"- Rubric: `{report['effective_rubric']['rubric_id']}` v{report['effective_rubric']['version']}",
         f"- Aggregate: **{report['summary']['baseline_aggregate_score']:.3f} → {report['summary']['candidate_aggregate_score']:.3f}** ({report['summary']['aggregate_delta']:+.3f})",
         f"- Candidate release gate: **{'PASS' if report['release_gate']['candidate_passed'] else 'FAIL'}**",
         "",

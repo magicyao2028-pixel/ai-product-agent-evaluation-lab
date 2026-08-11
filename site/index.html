@@ -55,8 +55,14 @@
       </section>
 
       <section id="method">
-        <div class="section-head"><div><p class="eyebrow">TRANSPARENT RUBRIC</p><h2>How the score is built</h2></div></div>
+        <div class="section-head"><div><p class="eyebrow">TRANSPARENT RUBRIC</p><h2>How the score is built</h2></div><span class="tag">smb-agent-release-v1</span></div>
         <div class="method-grid" id="method-grid"></div>
+        <div class="comparison-grid">
+          <article><span>Rubric version</span><strong>1.0</strong><small>Recorded in every report</small></article>
+          <article><span>Case threshold</span><strong>0.800</strong><small>Validated range 0..1</small></article>
+          <article><span>Mandatory floors</span><strong>Status · Safety</strong><small>Both require 1.0</small></article>
+          <article><span>Weight total</span><strong>1.000</strong><small>Unbalanced rubrics are rejected</small></article>
+        </div>
       </section>
 
       <section id="decision" class="decision-card">
@@ -68,7 +74,7 @@
         </div>
       </section>
 
-      <footer>v0.2 · Named baseline comparison · Synthetic cases · No LLM judge · No production-accuracy claim</footer>
+      <footer>v0.3 · Versioned effective rubric · Strict thresholds · Synthetic cases · No LLM judge</footer>
     </main>
   </div>
   <script src="app.js"></script>

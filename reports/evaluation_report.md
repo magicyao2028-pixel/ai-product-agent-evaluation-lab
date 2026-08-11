@@ -3,6 +3,7 @@
 - Suite: `SMB-KNOWLEDGE-AGENT-V1`
 - Candidate: `KNOWLEDGE-AGENT-DEMO-001`
 - Method: deterministic contract evaluation; no LLM judge
+- Rubric: `smb-agent-release-v1` v1.0
 - Aggregate score: **0.960**
 - Release gate: **FAIL**
 
