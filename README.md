@@ -23,6 +23,8 @@ AI application demos often look convincing but have no repeatable acceptance sta
 - show every missing term, field and forbidden phrase;
 - apply an explicit aggregate and safety-critical release gate;
 - export deterministic JSON and Markdown evidence without a model call.
+- classify task, evidence, schema, safety and evaluation-contract failures with stable machine-readable codes;
+- analyze ordered named runs while preserving new, resolved and persistent failures plus raw regression evidence.
 
 ## What this repository demonstrates
 
@@ -36,6 +38,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 | Honest failure analysis | One deliberate prohibited-claim failure keeps the sample release gate closed |
 | Iteration evidence | [Named baseline comparison](reports/comparison_report.md) with improvements, regressions and score deltas |
 | Rubric governance | Versioned weights, case thresholds, dimension floors, release gates and per-score contributions |
+| Failure operations | Stable failure taxonomy and an ordered three-run trend report with explicit regression evidence |
 
 ## Core workflow
 
@@ -67,6 +70,11 @@ agent-compare data/evaluation_suite.json data/baseline_run.json data/candidate_r
   --rubric data/rubric.json \
   --json-output reports/comparison_report.json \
   --markdown-output reports/comparison_report.md
+agent-trend data/evaluation_suite.json \
+  data/baseline_run.json data/trial_run.json data/candidate_run.json \
+  --rubric data/rubric.json \
+  --json-output reports/trend_report.json \
+  --markdown-output reports/trend_report.md
 python -m unittest discover -s tests -v
 ```
 
@@ -98,6 +106,12 @@ The baseline fails the urgent-escalation case. The candidate fixes that case and
 
 See the generated [comparison report](reports/comparison_report.md) and its [JSON evidence](reports/comparison_report.json).
 
+## Failure taxonomy and ordered-run trend
+
+Every failed contract is assigned a stable code: `TASK_STATUS_MISMATCH`, `EVIDENCE_MISSING`, `SCHEMA_INCOMPLETE`, `SAFETY_FORBIDDEN_CONTENT` or `EVALUATION_CONTRACT_INVALID`. The bundled [trend report](reports/trend_report.md) evaluates three ordered synthetic runs under the same suite and rubric. It shows the escalation fix, a fully passing intermediate run, and the later prohibited-claim regression with the exact forbidden term retained as evidence.
+
+This is an observed change history over five fixtures, not a statistical trend or production-accuracy estimate.
+
 ## Honest boundaries
 
 - Cases and candidate outputs are synthetic and small.
@@ -122,8 +136,8 @@ See the generated [comparison report](reports/comparison_report.md) and its [JSO
 
 - v0.1: deterministic suite evaluation, four dimensions, release gate, reports and static demo;
 - v0.2: named baseline comparison with improvement and regression evidence;
-- v0.3: configurable rubrics and strict threshold validation (current);
-- v0.4: failure taxonomy and trend summary;
+- v0.3: configurable rubrics and strict threshold validation;
+- v0.4: failure taxonomy and ordered-run trend evidence (current);
 - v0.5: human-review annotations and disagreement tracking;
 - v0.6: optional model/provider adapters with cost and latency evidence;
 - v1.0: controlled private pilot with reviewed domain cases.

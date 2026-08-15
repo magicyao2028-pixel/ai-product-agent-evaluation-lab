@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Product | AI Product & Agent Evaluation Lab |
-| Version | 0.3 |
+| Version | 0.4 |
 | Status | Product-validation MVP |
 | Primary user | AI product owner or operations lead in a small or medium-sized enterprise |
 | Public data policy | Synthetic evaluation cases and candidate outputs only |
@@ -18,9 +18,9 @@ An AI workflow can look useful in a demonstration while failing repeatable busin
 
 If a team converts acceptance expectations into a small reviewed suite and obtains an explainable report before release, it can identify obvious regressions earlier and discuss risk using concrete evidence rather than impressions.
 
-This hypothesis has not been validated with real teams. v0.3 tests deterministic behavior, comparison and rubric governance only.
+This hypothesis has not been validated with real teams. v0.4 tests deterministic behavior, comparison, rubric governance and ordered-run failure evidence only.
 
-## 4. v0.3 scope
+## 4. v0.4 scope
 
 ### In scope
 
@@ -36,6 +36,9 @@ This hypothesis has not been validated with real teams. v0.3 tests deterministic
 10. Load a versioned rubric with explicit weights, case threshold, dimension floors and release gate.
 11. Reject incomplete, unknown, non-finite, out-of-range or unbalanced rubric settings.
 12. Report the effective rubric and weighted contribution used for every case score.
+13. Assign stable task, evidence, schema, safety and evaluation-contract failure codes.
+14. Compare uniquely named ordered runs and preserve new, resolved and persistent failures.
+15. Attach raw case evidence to every detected regression and state the non-statistical boundary.
 
 ### Out of scope
 
@@ -60,6 +63,9 @@ This hypothesis has not been validated with real teams. v0.3 tests deterministic
 | FR-09 | Validate rubric | Must | Invalid weights or thresholds fail before scoring begins. |
 | FR-10 | Explain score formula | Must | Every case names the rubric and shows weights and contributions. |
 | FR-11 | Compare consistently | Must | Baseline and candidate use one identical effective rubric. |
+| FR-12 | Classify failures | Must | Failure codes retain the concrete status, term or field evidence that triggered them. |
+| FR-13 | Analyze ordered runs | Must | Adjacent transitions expose improvements, regressions and failure lifecycles. |
+| FR-14 | Prevent inflated claims | Must | Trend output explicitly rejects statistical and production-accuracy interpretation. |
 
 ## 6. Release gate
 

@@ -1,5 +1,13 @@
 # Evaluation Method
 
+## Failure taxonomy
+
+v0.4 attaches stable failure events to raw case evidence. Task failures retain expected and actual status; evidence failures retain missing terms; schema failures retain missing fields; safety failures retain found forbidden terms. Invalid suite or run coverage raises `EVALUATION_CONTRACT_INVALID` before scoring. The taxonomy groups deterministic observations; it does not infer root cause.
+
+## Ordered-run analysis
+
+The trend command evaluates at least two uniquely named runs with one suite and rubric, then compares adjacent runs. It records new, resolved and persistent failure codes and copies raw case evidence into every regression. The public fixture contains three ordered runs. “Trend” means an ordered change summary only—five synthetic cases provide no statistical or production claim.
+
 ## Effective rubric
 
 v0.3 loads a versioned rubric before scoring. If no file is supplied, the evaluator builds the same deterministic defaults used in v0.2. The public example uses `smb-agent-release-v1` version `1.0`.

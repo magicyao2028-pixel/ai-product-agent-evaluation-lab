@@ -3,6 +3,8 @@
 from .comparison import compare_files, compare_runs, write_comparison
 from .evaluator import evaluate_files, evaluate_run, write_report
 from .rubric import RubricConfig, default_rubric, load_rubric
+from .trend import analyze_files, analyze_runs, write_trend
+from .taxonomy import EvaluationContractError
 
 __all__ = [
     "compare_files",
@@ -10,9 +12,13 @@ __all__ = [
     "evaluate_files",
     "evaluate_run",
     "RubricConfig",
+    "EvaluationContractError",
+    "analyze_files",
+    "analyze_runs",
     "default_rubric",
     "load_rubric",
     "write_comparison",
     "write_report",
+    "write_trend",
 ]
-__version__ = "0.3.0"
+__version__ = "0.4.0"

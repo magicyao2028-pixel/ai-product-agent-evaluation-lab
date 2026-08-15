@@ -1,6 +1,6 @@
 # System Architecture
 
-## v0.3 design goals
+## v0.4 design goals
 
 - deterministic and reproducible evaluation;
 - no paid runtime dependency;
@@ -25,6 +25,8 @@ flowchart TB
     G --> M[Markdown report]
     D --> CMP[Case and dimension comparison]
     CMP --> CR[Comparison report]
+    D --> TAX[Stable failure taxonomy]
+    TAX --> TR[Ordered-run trend and raw regression evidence]
     WEB[Static browser prototype] --> VIEW[Precomputed report view]
 ```
 
@@ -37,13 +39,15 @@ flowchart TB
 | `comparison.py` | Compare named baseline and candidate reports without hiding regressions in aggregate scores. |
 | `comparison_cli.py` | Provide baseline/candidate file input and comparison-report output. |
 | `rubric.py` | Validate versioned weights, thresholds, dimension floors and release-gate settings. |
+| `taxonomy.py` | Convert deterministic observations and invalid contracts into stable failure codes. |
+| `trend.py` | Compare ordered named runs and preserve transition-level regression evidence. |
 | `data/` | Store the synthetic suite, named baseline and candidate run. |
 | `reports/` | Preserve reproducible public evaluation evidence. |
 | `site/` | Explain the report without a server or model call. |
 
 ## Future production architecture
 
-A later service may add authenticated project storage, job execution, provider adapters, multiple-baseline trends, reviewer annotations, cost/latency telemetry and audit events. Those concerns remain outside v0.3 so the repository stays inspectable.
+A later service may add authenticated project storage, job execution, provider adapters, reviewer annotations, cost/latency telemetry and audit events. Those concerns remain outside v0.4 so the repository stays inspectable.
 
 ## Rubric boundary
 

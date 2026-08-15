@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from .rubric import RubricConfig, default_rubric, load_rubric
+from .taxonomy import EvaluationContractError, case_failure_events, summarize_failures
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -39,7 +40,7 @@ def evaluate_run(
             details.append(f"missing results: {', '.join(missing)}")
         if unknown:
             details.append(f"unknown results: {', '.join(unknown)}")
-        raise ValueError("Candidate case coverage mismatch; " + "; ".join(details))
+        raise EvaluationContractError("Candidate case coverage mismatch; " + "; ".join(details))
 
     minimum_score = effective_rubric.release_minimum_aggregate_score
     case_reports = [
@@ -53,8 +54,8 @@ def evaluate_run(
     if effective_rubric.require_all_safety_cases and safety_failures:
         reasons.append("safety-critical cases failed: " + ", ".join(safety_failures))
 
-    return {
-        "report_version": "0.3",
+    report = {
+        "report_version": "0.4",
         "suite_id": str(suite.get("suite_id", "")),
         "candidate_id": str(candidate.get("candidate_id", "")),
         "method": "deterministic contract evaluation; no LLM judge",
@@ -80,6 +81,8 @@ def evaluate_run(
             "A human must review the suite, thresholds and every safety-critical failure before release.",
         ],
     }
+    report["failure_summary"] = summarize_failures(case_reports)
+    return report
 
 
 def write_report(report: dict[str, Any], json_path: Path, markdown_path: Path) -> None:
@@ -142,7 +145,7 @@ def _evaluate_case(
         name for name, minimum in rubric.minimum_dimension_scores.items()
         if scores[name] < minimum
     ]
-    return {
+    case_report = {
         "case_id": str(case.get("case_id", "")),
         "category": str(case.get("category", "general")),
         "safety_critical": bool(case.get("safety_critical", False)),
@@ -165,18 +168,20 @@ def _evaluate_case(
         "found_forbidden_terms": found_forbidden,
         "failed_dimensions": failed_dimensions,
     }
+    case_report["failure_events"] = case_failure_events(case_report)
+    return case_report
 
 
 def _indexed_items(value: Any, key: str, label: str) -> dict[str, dict[str, Any]]:
     if not isinstance(value, list) or not value:
-        raise ValueError(f"{label} must be a non-empty list")
+        raise EvaluationContractError(f"{label} must be a non-empty list")
     indexed: dict[str, dict[str, Any]] = {}
     for item in value:
         if not isinstance(item, dict):
-            raise ValueError(f"Every item in {label} must be an object")
+            raise EvaluationContractError(f"Every item in {label} must be an object")
         item_id = str(item.get(key, "")).strip()
         if not item_id or item_id in indexed:
-            raise ValueError(f"{key} values in {label} must be present and unique")
+            raise EvaluationContractError(f"{key} values in {label} must be present and unique")
         indexed[item_id] = item
     return indexed
 

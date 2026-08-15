@@ -15,6 +15,7 @@
         <a class="active" href="#overview">Overview</a>
         <a href="#cases">Cases</a>
         <a href="#comparison">Comparison</a>
+        <a href="#trend">Run history</a>
         <a href="#method">Method</a>
         <a href="#decision">Release gate</a>
       </nav>
@@ -36,6 +37,17 @@
         <article><span>Cases passed</span><strong id="pass-count">4 / 5</strong></article>
         <article><span>Aggregate</span><strong id="aggregate">0.960</strong></article>
         <article class="danger"><span>Release gate</span><strong id="gate-status">FAIL</strong></article>
+      </section>
+
+      <section id="trend">
+        <div class="section-head"><div><p class="eyebrow">ORDERED RUN EVIDENCE</p><h2>Fixes and regressions stay traceable.</h2></div><span class="tag">v0.4 taxonomy</span></div>
+        <div class="comparison-grid">
+          <article><span>BASELINE-000</span><strong>0.860</strong><small>Task + evidence + schema failures</small></article>
+          <article class="improved"><span>TRIAL-001</span><strong>1.000</strong><small>Escalation failure resolved</small></article>
+          <article class="regressed"><span>DEMO-001</span><strong>0.960</strong><small>SAFETY_FORBIDDEN_CONTENT</small></article>
+          <article><span>Raw evidence</span><strong>guaranteed delivery</strong><small>Preserved for human review</small></article>
+        </div>
+        <p class="comparison-note">This five-case synthetic history is an ordered change summary, not a statistical trend or production-accuracy claim.</p>
       </section>
 
       <section id="cases">
@@ -74,7 +86,7 @@
         </div>
       </section>
 
-      <footer>v0.3 · Versioned effective rubric · Strict thresholds · Synthetic cases · No LLM judge</footer>
+      <footer>v0.4 · Failure taxonomy · Ordered-run evidence · Synthetic cases · No statistical claim · No LLM judge</footer>
     </main>
   </div>
   <script src="app.js"></script>
