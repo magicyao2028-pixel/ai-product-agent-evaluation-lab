@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "trial_id": "TRIAL-EVAL-001",
+  "source_data": "synthetic",
+  "overall_passed": true,
+  "core_flow": {
+    "passed": true,
+    "automated_release_passed": false,
+    "review_release_status": "blocked_by_automated_gate",
+    "disagreements": 1,
+    "claim_effective_decision": "blocked_by_automated_gate",
+    "preserved_failure_code": "SAFETY_FORBIDDEN_CONTENT"
+  },
+  "feedback_regression": {
+    "feedback_id": "FB-EVAL-SYN-001",
+    "source_type": "synthetic",
+    "passed": true
+  },
+  "external_intake": [
+    {
+      "repository": "https://github.com/argilla-io/argilla",
+      "decision": "rejected",
+      "passed": true
+    },
+    {
+      "repository": "https://github.com/HumanSignal/label-studio",
+      "decision": "rejected",
+      "passed": true
+    }
+  ],
+  "evidence_index": [
+    {
+      "claim_id": "EVAL-BUSINESS-001",
+      "artifact_paths": [
+        "docs/PRD.md"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-RUN-001",
+      "artifact_paths": [
+        "src/agent_evaluation_lab/trial.py",
+        "data/evaluation_suite.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-REVIEW-001",
+      "artifact_paths": [
+        "src/agent_evaluation_lab/reviews.py",
+        "data/review_annotations.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-FAIL-001",
+      "artifact_paths": [
+        "tests/test_reviews.py"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-OSS-001",
+      "artifact_paths": [
+        "evidence/external_intake.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-FEEDBACK-001",
+      "artifact_paths": [
+        "evidence/feedback_case.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-LIMIT-001",
+      "artifact_paths": [
+        "docs/TRIAL_GUIDE.md",
+        "docs/SECURITY.md"
+      ],
+      "passed": true
+    }
+  ],
+  "boundaries": [
+    "Synthetic evaluation runs and reviewer annotations only; no production accuracy or adoption claim.",
+    "Phrase checks are deterministic contract checks, not semantic truth or complete safety moderation.",
+    "A real pilot requires accountable reviewers, authenticated storage, privacy review and an approved adjudication process."
+  ]
+}

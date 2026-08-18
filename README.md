@@ -25,6 +25,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 - export deterministic JSON and Markdown evidence without a model call.
 - classify task, evidence, schema, safety and evaluation-contract failures with stable machine-readable codes;
 - analyze ordered named runs while preserving new, resolved and persistent failures plus raw regression evidence.
+- capture reviewer annotations separately, expose disagreement and prevent approval from overriding an automated safety failure.
 
 ## What this repository demonstrates
 
@@ -39,6 +40,8 @@ AI application demos often look convincing but have no repeatable acceptance sta
 | Iteration evidence | [Named baseline comparison](reports/comparison_report.md) with improvements, regressions and score deltas |
 | Rubric governance | Versioned weights, case thresholds, dimension floors, release gates and per-score contributions |
 | Failure operations | Stable failure taxonomy and an ordered three-run trend report with explicit regression evidence |
+| Review operations | Synthetic multi-reviewer annotations, disagreement and immutable automated-failure evidence |
+| Trial readiness | [15–20 minute offline reviewer trial](docs/TRIAL_GUIDE.md) with a seven-claim evidence index |
 
 ## Core workflow
 
@@ -75,6 +78,8 @@ agent-trend data/evaluation_suite.json \
   --rubric data/rubric.json \
   --json-output reports/trend_report.json \
   --markdown-output reports/trend_report.md
+agent-review reports/evaluation_report.json data/review_annotations.json
+agent-eval-trial
 python -m unittest discover -s tests -v
 ```
 
@@ -121,6 +126,10 @@ This is an observed change history over five fixtures, not a statistical trend o
 - Weights and thresholds are product decisions, not universal AI quality standards.
 - A human must review the suite and every safety-critical failure.
 
+## Human-review disagreement
+
+The bundled v0.5 fixture adds two synthetic reviewer roles without changing the automated report. Both approve a passing case; they disagree on the prohibited-claim case. The automated `SAFETY_FORBIDDEN_CONTENT` event remains intact and the case stays blocked. This demonstrates review traceability, not a real user study or delegated release authority. See the [review report](reports/review_report.md) and [trial guide](docs/TRIAL_GUIDE.md).
+
 ## Documentation
 
 - [Product requirements](docs/PRD.md)
@@ -129,6 +138,7 @@ This is an observed change history over five fixtures, not a statistical trend o
 - [Rubric configuration](docs/RUBRIC_CONFIGURATION.md)
 - [Security and governance](docs/SECURITY.md)
 - [Maintenance plan](docs/MAINTENANCE_PLAN.md)
+- [Trial guide](docs/TRIAL_GUIDE.md)
 - [Current handoff](HANDOFF.md)
 - [Changelog](CHANGELOG.md)
 
@@ -137,8 +147,8 @@ This is an observed change history over five fixtures, not a statistical trend o
 - v0.1: deterministic suite evaluation, four dimensions, release gate, reports and static demo;
 - v0.2: named baseline comparison with improvement and regression evidence;
 - v0.3: configurable rubrics and strict threshold validation;
-- v0.4: failure taxonomy and ordered-run trend evidence (current);
-- v0.5: human-review annotations and disagreement tracking;
+- v0.4: failure taxonomy and ordered-run trend evidence;
+- v0.5: human-review annotations, disagreement tracking and trial-readiness evidence (current);
 - v0.6: optional model/provider adapters with cost and latency evidence;
 - v1.0: controlled private pilot with reviewed domain cases.
 

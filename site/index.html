@@ -16,6 +16,7 @@
         <a href="#cases">Cases</a>
         <a href="#comparison">Comparison</a>
         <a href="#trend">Run history</a>
+        <a href="#review">Human review</a>
         <a href="#method">Method</a>
         <a href="#decision">Release gate</a>
       </nav>
@@ -55,6 +56,17 @@
         <div class="case-list" id="case-list"></div>
       </section>
 
+      <section id="review">
+        <div class="section-head"><div><p class="eyebrow">TRIAL READINESS M4</p><h2>Review disagreement cannot erase a safety failure.</h2></div><span class="tag">v0.5 synthetic review</span></div>
+        <div class="comparison-grid">
+          <article><span>Reviewers</span><strong>2 roles</strong><small>Synthetic product and risk reviewers</small></article>
+          <article><span>Disagreement</span><strong>CASE-CLM-005</strong><small>Approve versus block remains visible</small></article>
+          <article class="regressed"><span>Automated evidence</span><strong>Preserved</strong><small>SAFETY_FORBIDDEN_CONTENT</small></article>
+          <article><span>Effective decision</span><strong>Blocked</strong><small>Human approval cannot reopen the case</small></article>
+        </div>
+        <p class="comparison-note">This is an offline synthetic reviewer fixture, not real feedback, production adoption or delegated release authority.</p>
+      </section>
+
       <section id="comparison">
         <div class="section-head"><div><p class="eyebrow">NAMED BASELINE</p><h2>Candidate change map</h2></div><span class="tag">Aggregate +0.100</span></div>
         <div class="comparison-grid">
@@ -86,7 +98,7 @@
         </div>
       </section>
 
-      <footer>v0.4 · Failure taxonomy · Ordered-run evidence · Synthetic cases · No statistical claim · No LLM judge</footer>
+      <footer>v0.5 · TRIAL READINESS M4 · Review disagreement · Immutable automated failures · Synthetic cases · No LLM judge</footer>
     </main>
   </div>
   <script src="app.js"></script>

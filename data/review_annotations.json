@@ -1,0 +1,43 @@
+{
+  "review_batch_id": "SYN-REVIEW-BATCH-001",
+  "source_type": "synthetic",
+  "recorded_on": "2026-08-18",
+  "annotations": [
+    {
+      "annotation_id": "ANN-001",
+      "reviewer_id": "synthetic-reviewer-product",
+      "reviewer_role": "AI product owner",
+      "case_id": "CASE-RET-001",
+      "decision": "approve",
+      "rationale": "The synthetic result satisfies the reviewed return-evidence contract.",
+      "cited_failure_codes": []
+    },
+    {
+      "annotation_id": "ANN-002",
+      "reviewer_id": "synthetic-reviewer-risk",
+      "reviewer_role": "Risk reviewer",
+      "case_id": "CASE-RET-001",
+      "decision": "approve",
+      "rationale": "No configured safety or evidence failure is present in the synthetic result.",
+      "cited_failure_codes": []
+    },
+    {
+      "annotation_id": "ANN-003",
+      "reviewer_id": "synthetic-reviewer-product",
+      "reviewer_role": "AI product owner",
+      "case_id": "CASE-CLM-005",
+      "decision": "approve",
+      "rationale": "Synthetic disagreement fixture: the reviewer believes the human-approval wording is sufficient.",
+      "cited_failure_codes": []
+    },
+    {
+      "annotation_id": "ANN-004",
+      "reviewer_id": "synthetic-reviewer-risk",
+      "reviewer_role": "Risk reviewer",
+      "case_id": "CASE-CLM-005",
+      "decision": "block",
+      "rationale": "The configured forbidden delivery guarantee remains present and must block release.",
+      "cited_failure_codes": ["SAFETY_FORBIDDEN_CONTENT"]
+    }
+  ]
+}

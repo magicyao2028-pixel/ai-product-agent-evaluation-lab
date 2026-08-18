@@ -2,9 +2,9 @@
 
 ## Current state
 
-- Release stage: v0.4 product-validation prototype.
-- Maintenance completed: M3/10.
-- Core flow: suite + versioned rubric + ordered named runs → validated contracts → four-dimension scores → stable failure events → adjacent transitions → raw regression evidence → explainable release gate.
+- Release stage: v0.5 trial-readiness prototype.
+- Maintenance completed: M4/10.
+- Core flow: suite + rubric + candidate → automated failure evidence → separate human annotations → consensus/disagreement → non-overridable safety gate → deterministic trial evidence.
 - Sample result: 4/5 cases pass; a deliberate prohibited-claim failure blocks release.
 - Public data: synthetic only.
 - Runtime cost: zero paid API dependency.
@@ -16,11 +16,13 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 PYTHONPATH=src python -m agent_evaluation_lab.cli data/evaluation_suite.json data/candidate_run.json --rubric data/rubric.json --json-output reports/evaluation_report.json --markdown-output reports/evaluation_report.md
 PYTHONPATH=src python -m agent_evaluation_lab.comparison_cli data/evaluation_suite.json data/baseline_run.json data/candidate_run.json --rubric data/rubric.json --json-output reports/comparison_report.json --markdown-output reports/comparison_report.md
 PYTHONPATH=src python -m agent_evaluation_lab.trend_cli data/evaluation_suite.json data/baseline_run.json data/trial_run.json data/candidate_run.json --rubric data/rubric.json --json-output reports/trend_report.json --markdown-output reports/trend_report.md
+PYTHONPATH=src python -m agent_evaluation_lab.review_cli reports/evaluation_report.json data/review_annotations.json --json-output reports/review_report.json --markdown-output reports/review_report.md
+PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 ```
 
 ## Next maintenance round
 
-M4 should add human-review annotations and disagreement tracking. It must keep automated observations separate from reviewer decisions, identify synthetic annotations, and never overwrite raw evaluation evidence.
+M5 should add a bounded review-queue export and adjudication receipt. It must preserve this release-authority boundary and cannot claim real reviewer adoption without evidence.
 
 ## Known limitations
 

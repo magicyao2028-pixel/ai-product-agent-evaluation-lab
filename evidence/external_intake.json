@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "reviewed_on": "2026-08-18",
+  "candidates": [
+    {"repository": "https://github.com/argilla-io/argilla", "version": "v2.8.0", "commit": "78cb5183f72e59857cf4da3015c42a91c3b46205", "license": "Apache-2.0", "decision": "rejected", "code_adopted": false, "reason": "A hosted feedback and annotation platform adds server, account and storage scope that is unnecessary for this bounded offline fixture."},
+    {"repository": "https://github.com/HumanSignal/label-studio", "version": "1.23.0", "commit": "2a9bfbcbf0a844b999de97e601d16050a893f5fb", "license": "Apache-2.0", "decision": "rejected", "code_adopted": false, "reason": "A full data-labeling platform adds operational scope but does not improve deterministic evaluation-evidence preservation in this trial."}
+  ]
+}

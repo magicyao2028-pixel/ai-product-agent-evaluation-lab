@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "feedback_id": "FB-EVAL-SYN-001",
+  "source_type": "synthetic",
+  "recorded_on": "2026-08-18",
+  "classification": "safety",
+  "summary": "A human approval must never erase or reopen an automated safety failure.",
+  "decision": "accepted",
+  "acceptance_test": "tests/test_reviews.py",
+  "implementation": "src/agent_evaluation_lab/reviews.py",
+  "release_result": "CASE-CLM-005 remains blocked_by_automated_gate while disagreement is preserved for adjudication.",
+  "adoption_claim": "Synthetic requirement only; not real reviewer feedback or production adoption."
+}

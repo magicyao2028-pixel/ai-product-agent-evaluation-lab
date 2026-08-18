@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 - 2026-08-18
+
+- added separate synthetic reviewer annotations with consensus and disagreement states;
+- retained a canonical hash and the original failure events without mutation;
+- prevented reviewer approval from overriding an automated safety failure;
+- screened Argilla and Label Studio without forcing unnecessary platform scope into the offline default;
+- added a deterministic trial-readiness report, evidence index and synthetic feedback regression.
+
 ## 0.4.0 - 2026-08-15
 
 - added stable task, evidence, schema, safety and evaluation-contract failure codes;
