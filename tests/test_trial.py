@@ -46,6 +46,16 @@ class TrialReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unsupported"):
             validate_feedback(ROOT, payload)
 
+        payload = load_json_object(ROOT / "evidence/feedback_case.json")
+        payload["classification"] = "anything"
+        with self.assertRaisesRegex(ValueError, "unsupported"):
+            validate_feedback(ROOT, payload)
+
+        payload = load_json_object(ROOT / "evidence/feedback_case.json")
+        payload["decision"] = "rejected"
+        with self.assertRaisesRegex(ValueError, "accepted decision"):
+            validate_feedback(ROOT, payload)
+
     def test_trial_report_is_reproducible(self):
         with TemporaryDirectory() as directory:
             json_path = Path(directory) / "trial.json"

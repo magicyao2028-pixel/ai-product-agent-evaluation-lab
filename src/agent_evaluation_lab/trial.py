@@ -11,6 +11,7 @@ from .reviews import analyze_review_annotations, load_review_annotations
 
 
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
+FEEDBACK_CLASSES = {"defect", "requirement", "usability", "performance", "safety", "documentation"}
 
 
 def load_json_object(path: Path) -> dict[str, Any]:
@@ -75,8 +76,10 @@ def validate_feedback(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     if required.difference(payload) or any(not str(payload[key]).strip() for key in required):
         raise ValueError("Feedback record is incomplete")
     date.fromisoformat(str(payload["recorded_on"]))
-    if payload["source_type"] not in {"real", "synthetic"}:
-        raise ValueError("Feedback source_type is unsupported")
+    if payload["source_type"] not in {"real", "synthetic"} or payload["classification"] not in FEEDBACK_CLASSES:
+        raise ValueError("Feedback source_type or classification is unsupported")
+    if payload["decision"] != "accepted":
+        raise ValueError("Trial feedback case must record an accepted decision")
     for key in ("acceptance_test", "implementation"):
         target = (root.resolve() / str(payload[key])).resolve()
         if not target.is_relative_to(root.resolve()) or not target.is_file():
