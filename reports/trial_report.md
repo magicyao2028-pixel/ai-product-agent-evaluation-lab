@@ -7,6 +7,9 @@
 - Human-review disagreements: 1
 - Safety failure preserved: `SAFETY_FORBIDDEN_CONTENT`
 
+- Review-queue items: 1
+- Adjudication effective decision: `blocked_by_automated_gate`
+
 ## Pilot boundary
 
 - Synthetic evaluation runs and reviewer annotations only; no production accuracy or adoption claim.

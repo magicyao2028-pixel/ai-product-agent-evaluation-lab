@@ -1,0 +1,8 @@
+{
+  "receipt_id": "ADJ-EVAL-SYN-001",
+  "adjudicator_id": "synthetic-review-lead",
+  "recorded_on": "2026-08-23",
+  "decision": "needs_changes",
+  "rationale": "Resolve the prohibited delivery claim before any release decision; the disagreement is recorded but the automated safety gate remains authoritative.",
+  "case_ids": ["CASE-CLM-005"]
+}

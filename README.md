@@ -26,6 +26,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 - classify task, evidence, schema, safety and evaluation-contract failures with stable machine-readable codes;
 - analyze ordered named runs while preserving new, resolved and persistent failures plus raw regression evidence.
 - capture reviewer annotations separately, expose disagreement and prevent approval from overriding an automated safety failure.
+- export a bounded review queue and adjudication receipt without changing automated evidence or reopening safety failures.
 
 ## What this repository demonstrates
 
@@ -79,6 +80,7 @@ agent-trend data/evaluation_suite.json \
   --json-output reports/trend_report.json \
   --markdown-output reports/trend_report.md
 agent-review reports/evaluation_report.json data/review_annotations.json
+agent-eval-trial
 agent-eval-trial
 python -m unittest discover -s tests -v
 ```
@@ -148,8 +150,8 @@ The bundled v0.5 fixture adds two synthetic reviewer roles without changing the 
 - v0.2: named baseline comparison with improvement and regression evidence;
 - v0.3: configurable rubrics and strict threshold validation;
 - v0.4: failure taxonomy and ordered-run trend evidence;
-- v0.5: human-review annotations, disagreement tracking and trial-readiness evidence (current);
-- v0.6: optional model/provider adapters with cost and latency evidence;
+- v0.5: human-review annotations, disagreement tracking and trial-readiness evidence;
+- v0.6: bounded review queue and non-overriding adjudication receipt (current);
 - v1.0: controlled private pilot with reviewed domain cases.
 
 ## License

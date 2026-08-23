@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 - 2026-08-23
+
+- added a bounded review-queue export for failed, disputed and adjudication-required cases;
+- added a versioned adjudication receipt that records requested decisions without reopening automated safety failures;
+- added synthetic trial evidence and regression tests for queue priority, unknown cases and authority preservation.
+
 ## 0.5.0 - 2026-08-18
 
 - added separate synthetic reviewer annotations with consensus and disagreement states;

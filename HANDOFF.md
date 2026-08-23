@@ -2,8 +2,8 @@
 
 ## Current state
 
-- Release stage: v0.5 trial-readiness prototype.
-- Maintenance completed: M4/10.
+- Release stage: v0.6 trial-readiness prototype.
+- Maintenance completed: M5/10.
 - Core flow: suite + rubric + candidate → automated failure evidence → separate human annotations → consensus/disagreement → non-overridable safety gate → deterministic trial evidence.
 - Sample result: 4/5 cases pass; a deliberate prohibited-claim failure blocks release.
 - Public data: synthetic only.
@@ -20,9 +20,15 @@ PYTHONPATH=src python -m agent_evaluation_lab.review_cli reports/evaluation_repo
 PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 ```
 
+## M5 result
+
+- Added a bounded queue for failed, disputed and adjudication-required cases.
+- Added a synthetic adjudication receipt that records reviewer accountability but cannot reopen an automated safety failure.
+- The trial now verifies queue export, receipt validation and authority preservation.
+
 ## Next maintenance round
 
-M5 should add a bounded review-queue export and adjudication receipt. It must preserve this release-authority boundary and cannot claim real reviewer adoption without evidence.
+M6 can add a versioned review-history fixture or export schema only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
 
 ## Known limitations
 

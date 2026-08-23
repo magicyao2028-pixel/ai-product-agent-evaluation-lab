@@ -7,7 +7,12 @@ from pathlib import Path
 from typing import Any
 
 from .evaluator import evaluate_files
-from .reviews import analyze_review_annotations, load_review_annotations
+from .reviews import (
+    analyze_review_annotations,
+    build_review_queue,
+    create_adjudication_receipt,
+    load_review_annotations,
+)
 
 
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
@@ -91,6 +96,8 @@ def run_trial(root: Path) -> dict[str, Any]:
     root = root.resolve()
     evaluation = evaluate_files(root / "data/evaluation_suite.json", root / "data/candidate_run.json", root / "data/rubric.json")
     review = analyze_review_annotations(evaluation, load_review_annotations(root / "data/review_annotations.json"))
+    review_queue = build_review_queue(evaluation, review)
+    adjudication = create_adjudication_receipt(review, load_json_object(root / "data/adjudication_receipt.json"))
     evidence = validate_evidence_index(root, load_json_object(root / "evidence/evidence_index.json"))
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
@@ -101,6 +108,8 @@ def run_trial(root: Path) -> dict[str, Any]:
         and review["raw_evaluation_mutated"] is False
         and claim["effective_decision"] == "blocked_by_automated_gate"
         and claim["automated_failure_events"][0]["code"] == "SAFETY_FORBIDDEN_CONTENT"
+        and len(review_queue["items"]) >= 1
+        and adjudication["effective_decision"] == "blocked_by_automated_gate"
     )
     return {
         "schema_version": "1.0",
@@ -116,6 +125,8 @@ def run_trial(root: Path) -> dict[str, Any]:
             "preserved_failure_code": claim["automated_failure_events"][0]["code"],
         },
         "feedback_regression": feedback,
+        "review_queue": review_queue,
+        "adjudication_receipt": adjudication,
         "external_intake": external,
         "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
@@ -130,6 +141,8 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Automated release gate: **{'PASS' if report['core_flow']['automated_release_passed'] else 'FAIL'}**",
         f"- Human-review disagreements: {report['core_flow']['disagreements']}",
         f"- Safety failure preserved: `{report['core_flow']['preserved_failure_code']}`", "",
+        f"- Review-queue items: {len(report['review_queue']['items'])}",
+        f"- Adjudication effective decision: `{report['adjudication_receipt']['effective_decision']}`", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ])
 

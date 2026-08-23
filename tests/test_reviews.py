@@ -5,7 +5,12 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from agent_evaluation_lab import evaluate_files
-from agent_evaluation_lab.reviews import analyze_review_annotations, write_review_report
+from agent_evaluation_lab.reviews import (
+    analyze_review_annotations,
+    build_review_queue,
+    create_adjudication_receipt,
+    write_review_report,
+)
 
 
 ROOT = Path(__file__).parents[1]
@@ -61,6 +66,41 @@ class HumanReviewTests(unittest.TestCase):
             first = (json_path.read_bytes(), md_path.read_bytes())
             write_review_report(report, json_path, md_path)
             self.assertEqual(first, (json_path.read_bytes(), md_path.read_bytes()))
+
+    def test_review_queue_and_adjudication_preserve_safety_authority(self):
+        report = analyze_review_annotations(self.evaluation, self.annotations)
+        queue = build_review_queue(self.evaluation, report)
+        receipt = create_adjudication_receipt(
+            report,
+            {
+                "receipt_id": "ADJ-TEST-001",
+                "adjudicator_id": "review-lead",
+                "recorded_on": "2026-08-23",
+                "decision": "approve",
+                "rationale": "Approval is recorded for audit but cannot reopen the automated failure.",
+                "case_ids": ["CASE-CLM-005"],
+            },
+        )
+
+        self.assertTrue(queue["items"])
+        self.assertEqual(queue["items"][0]["priority"], "critical")
+        self.assertTrue(receipt["automated_gate_overrode_request"])
+        self.assertEqual(receipt["effective_decision"], "blocked_by_automated_gate")
+
+    def test_adjudication_rejects_unknown_case(self):
+        report = analyze_review_annotations(self.evaluation, self.annotations)
+        with self.assertRaisesRegex(ValueError, "unknown case"):
+            create_adjudication_receipt(
+                report,
+                {
+                    "receipt_id": "ADJ-TEST-002",
+                    "adjudicator_id": "review-lead",
+                    "recorded_on": "2026-08-23",
+                    "decision": "needs_changes",
+                    "rationale": "Unknown case should fail closed.",
+                    "case_ids": ["CASE-UNKNOWN"],
+                },
+            )
 
 
 if __name__ == "__main__":
