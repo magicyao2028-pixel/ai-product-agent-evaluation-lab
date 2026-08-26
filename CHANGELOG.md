@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 - 2026-08-26
+
+- added a versioned append-only review-history fixture and validator;
+- added a CLI path that preserves snapshot digests and review status without release authority;
+- extended trial evidence and regression coverage while retaining synthetic/offline boundaries.
+
 ## 0.6.0 - 2026-08-23
 
 - added a bounded review-queue export for failed, disputed and adjudication-required cases;

@@ -12,6 +12,7 @@ from agent_evaluation_lab.trial import (
     validate_feedback,
     write_trial_report,
 )
+from agent_evaluation_lab.review_history import validate_review_history
 
 
 ROOT = Path(__file__).parents[1]
@@ -27,7 +28,7 @@ class TrialReadinessTests(unittest.TestCase):
 
     def test_evidence_index_links_seven_real_claims(self):
         result = validate_evidence_index(ROOT, load_json_object(ROOT / "evidence/evidence_index.json"))
-        self.assertEqual(len(result), 8)
+        self.assertEqual(len(result), 9)
 
     def test_external_intake_rejects_short_sha_and_false_adoption(self):
         payload = load_json_object(ROOT / "evidence/external_intake.json")
@@ -66,6 +67,12 @@ class TrialReadinessTests(unittest.TestCase):
             self.assertEqual(first, second)
             self.assertEqual(first_bytes, (json_path.read_bytes(), markdown_path.read_bytes()))
             self.assertTrue(json.loads(json_path.read_text(encoding="utf-8"))["overall_passed"])
+
+    def test_review_history_is_chronological_and_non_authoritative(self):
+        report = validate_review_history(load_json_object(ROOT / "data/review_history.json"))
+        self.assertEqual(report["entry_count"], 2)
+        self.assertEqual(report["latest_batch_id"], "SYN-REVIEW-BATCH-002")
+        self.assertFalse(report["release_authority"])
 
 
 if __name__ == "__main__":

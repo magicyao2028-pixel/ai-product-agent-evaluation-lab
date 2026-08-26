@@ -48,6 +48,30 @@
     "automated_gate_overrode_request": true,
     "authority_boundary": "Adjudication records accountability and cannot reopen an automated safety failure."
   },
+  "review_history": {
+    "schema_version": "1.0",
+    "history_type": "append-only review evidence index",
+    "entry_count": 2,
+    "entries": [
+      {
+        "review_batch_id": "SYN-REVIEW-BATCH-001",
+        "source_type": "synthetic",
+        "recorded_on": "2026-08-18",
+        "evaluation_snapshot_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "release_status": "blocked_by_automated_gate"
+      },
+      {
+        "review_batch_id": "SYN-REVIEW-BATCH-002",
+        "source_type": "synthetic",
+        "recorded_on": "2026-08-23",
+        "evaluation_snapshot_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "release_status": "needs_adjudication"
+      }
+    ],
+    "latest_batch_id": "SYN-REVIEW-BATCH-002",
+    "release_authority": false,
+    "authority_boundary": "History records preserve review evidence and cannot approve, block or mutate an evaluation run."
+  },
   "external_intake": [
     {
       "repository": "https://github.com/argilla-io/argilla",
@@ -119,6 +143,16 @@
       "artifact_paths": [
         "docs/TRIAL_GUIDE.md",
         "docs/SECURITY.md"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-HISTORY-001",
+      "artifact_paths": [
+        "src/agent_evaluation_lab/review_history.py",
+        "data/review_history.json",
+        "tests/test_trial.py",
+        "reports/trial_report.json"
       ],
       "passed": true
     }

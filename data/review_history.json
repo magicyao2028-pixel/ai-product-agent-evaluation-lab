@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "entries": [
+    {
+      "review_batch_id": "SYN-REVIEW-BATCH-001",
+      "source_type": "synthetic",
+      "recorded_on": "2026-08-18",
+      "evaluation_snapshot_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "release_status": "blocked_by_automated_gate"
+    },
+    {
+      "review_batch_id": "SYN-REVIEW-BATCH-002",
+      "source_type": "synthetic",
+      "recorded_on": "2026-08-23",
+      "evaluation_snapshot_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "release_status": "needs_adjudication"
+    }
+  ]
+}

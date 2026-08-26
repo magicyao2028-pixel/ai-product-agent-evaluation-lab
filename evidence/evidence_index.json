@@ -10,6 +10,7 @@
     {"claim_id": "EVAL-OSS-001", "statement": "Two external annotation systems were screened and rejected with traceable metadata.", "artifacts": [{"kind": "screening", "path": "evidence/external_intake.json"}]},
     {"claim_id": "EVAL-FEEDBACK-001", "statement": "A synthetic safety requirement is linked to implementation and regression evidence.", "artifacts": [{"kind": "feedback", "path": "evidence/feedback_case.json"}]},
     {"claim_id": "EVAL-LIMIT-001", "statement": "Synthetic, offline and human-authority boundaries are explicit.", "artifacts": [{"kind": "guide", "path": "docs/TRIAL_GUIDE.md"}, {"kind": "security", "path": "docs/SECURITY.md"}]}
+    ,{"claim_id": "EVAL-HISTORY-001", "statement": "A versioned append-only review-history fixture preserves chronological review evidence without granting release authority.", "artifacts": [{"kind": "implementation", "path": "src/agent_evaluation_lab/review_history.py"}, {"kind": "fixture", "path": "data/review_history.json"}, {"kind": "test", "path": "tests/test_trial.py"}, {"kind": "trial", "path": "reports/trial_report.json"}]}
   ],
   "boundaries": [
     "Synthetic evaluation runs and reviewer annotations only; no production accuracy or adoption claim.",

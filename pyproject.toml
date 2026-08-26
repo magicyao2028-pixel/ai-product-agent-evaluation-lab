@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ai-product-agent-evaluation-lab"
-version = "0.6.0"
+version = "0.7.0"
 description = "Deterministic Agent evaluation with failure taxonomy, ordered run trends and release gates."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -18,6 +18,7 @@ agent-compare = "agent_evaluation_lab.comparison_cli:main"
 agent-trend = "agent_evaluation_lab.trend_cli:main"
 agent-review = "agent_evaluation_lab.review_cli:main"
 agent-eval-trial = "agent_evaluation_lab.trial_cli:main"
+agent-review-history = "agent_evaluation_lab.review_history_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .evaluator import evaluate_files
+from .review_history import validate_review_history
 from .reviews import (
     analyze_review_annotations,
     build_review_queue,
@@ -101,6 +102,7 @@ def run_trial(root: Path) -> dict[str, Any]:
     evidence = validate_evidence_index(root, load_json_object(root / "evidence/evidence_index.json"))
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
+    history = validate_review_history(load_json_object(root / "data/review_history.json"))
     claim = next(item for item in review["cases"] if item["case_id"] == "CASE-CLM-005")
     core_passed = (
         evaluation["release_gate"]["passed"] is False
@@ -115,7 +117,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "schema_version": "1.0",
         "trial_id": "TRIAL-EVAL-001",
         "source_data": "synthetic",
-        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external),
+        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False,
         "core_flow": {
             "passed": core_passed,
             "automated_release_passed": evaluation["release_gate"]["passed"],
@@ -127,6 +129,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "feedback_regression": feedback,
         "review_queue": review_queue,
         "adjudication_receipt": adjudication,
+        "review_history": history,
         "external_intake": external,
         "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
@@ -143,6 +146,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Safety failure preserved: `{report['core_flow']['preserved_failure_code']}`", "",
         f"- Review-queue items: {len(report['review_queue']['items'])}",
         f"- Adjudication effective decision: `{report['adjudication_receipt']['effective_decision']}`", "",
+        f"- Review-history entries: {report['review_history']['entry_count']} (release authority: {report['review_history']['release_authority']})", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ])
 

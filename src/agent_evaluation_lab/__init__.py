@@ -4,6 +4,7 @@ from .comparison import compare_files, compare_runs, write_comparison
 from .evaluator import evaluate_files, evaluate_run, write_report
 from .rubric import RubricConfig, default_rubric, load_rubric
 from .reviews import analyze_review_annotations, analyze_review_files, write_review_report
+from .review_history import validate_review_history
 from .trend import analyze_files, analyze_runs, write_trend
 from .taxonomy import EvaluationContractError
 
@@ -23,6 +24,7 @@ __all__ = [
     "write_comparison",
     "write_report",
     "write_review_report",
+    "validate_review_history",
     "write_trend",
 ]
-__version__ = "0.5.0"
+__version__ = "0.7.0"
