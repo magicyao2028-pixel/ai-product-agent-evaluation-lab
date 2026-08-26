@@ -20,7 +20,7 @@ PYTHONPATH=src python -m agent_evaluation_lab.review_cli reports/evaluation_repo
 PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 ```
 
-## M5 result
+## M6 result
 
 - Added a bounded queue for failed, disputed and adjudication-required cases.
 - Added a synthetic adjudication receipt that records reviewer accountability but cannot reopen an automated safety failure.
