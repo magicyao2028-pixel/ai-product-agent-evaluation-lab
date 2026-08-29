@@ -27,6 +27,7 @@ AI application demos often look convincing but have no repeatable acceptance sta
 - analyze ordered named runs while preserving new, resolved and persistent failures plus raw regression evidence.
 - capture reviewer annotations separately, expose disagreement and prevent approval from overriding an automated safety failure.
 - export a bounded review queue and adjudication receipt without changing automated evidence or reopening safety failures.
+- export deterministic reviewer next actions for remediation and adjudication without applying decisions or granting release authority.
 - preserve a versioned append-only review history with snapshot digests and no release authority.
 
 ## What this repository demonstrates
@@ -153,7 +154,8 @@ The bundled v0.5 fixture adds two synthetic reviewer roles without changing the 
 - v0.4: failure taxonomy and ordered-run trend evidence;
 - v0.5: human-review annotations, disagreement tracking and trial-readiness evidence;
 - v0.6: bounded review queue and non-overriding adjudication receipt;
-- v0.7: chronological append-only review-history validation without release authority (current);
+- v0.7: chronological append-only review-history validation without release authority;
+- v0.8: bounded reviewer-decision export with non-overriding remediation actions (current);
 - v1.0: controlled private pilot with reviewed domain cases.
 
 ## License

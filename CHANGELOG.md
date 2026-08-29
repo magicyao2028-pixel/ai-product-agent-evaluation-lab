@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 - 2026-08-29
+
+- added a deterministic reviewer-decision export for blocked, disputed and review-blocked cases;
+- preserved immutable automated evidence, no-decision-application and no-release-authority boundaries;
+- added snapshot-consistency validation, trial evidence and regression coverage.
+
 ## 0.7.0 - 2026-08-26
 
 - added a versioned append-only review-history fixture and validator;

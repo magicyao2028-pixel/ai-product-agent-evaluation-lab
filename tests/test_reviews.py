@@ -11,6 +11,7 @@ from agent_evaluation_lab.reviews import (
     create_adjudication_receipt,
     write_review_report,
 )
+from agent_evaluation_lab.reviewer_decisions import build_reviewer_decision_export
 
 
 ROOT = Path(__file__).parents[1]
@@ -101,6 +102,46 @@ class HumanReviewTests(unittest.TestCase):
                     "case_ids": ["CASE-UNKNOWN"],
                 },
             )
+
+    def test_reviewer_decision_export_is_bounded_and_preserves_safety(self):
+        report = analyze_review_annotations(self.evaluation, self.annotations)
+        queue = build_review_queue(self.evaluation, report)
+        receipt = create_adjudication_receipt(
+            report,
+            {
+                "receipt_id": "ADJ-TEST-003",
+                "adjudicator_id": "review-lead",
+                "recorded_on": "2026-08-23",
+                "decision": "approve",
+                "rationale": "Record only; automated safety remains authoritative.",
+                "case_ids": ["CASE-CLM-005"],
+            },
+        )
+        exported = build_reviewer_decision_export(self.evaluation, report, queue, receipt)
+        safety = next(item for item in exported["decisions"] if item["case_id"] == "CASE-CLM-005")
+        self.assertEqual(safety["status"], "blocked")
+        self.assertEqual(safety["recommended_action"], "fix_candidate_and_rerun_evaluation")
+        self.assertFalse(exported["decisions_applied"])
+        self.assertFalse(exported["release_authority"])
+        self.assertEqual(exported["external_actions_executed"], 0)
+
+    def test_reviewer_decision_export_rejects_snapshot_mismatch(self):
+        report = analyze_review_annotations(self.evaluation, self.annotations)
+        queue = build_review_queue(self.evaluation, report)
+        queue["evaluation_snapshot_sha256"] = "sha256:wrong"
+        receipt = create_adjudication_receipt(
+            report,
+            {
+                "receipt_id": "ADJ-TEST-004",
+                "adjudicator_id": "review-lead",
+                "recorded_on": "2026-08-23",
+                "decision": "needs_changes",
+                "rationale": "Snapshot mismatch must fail closed.",
+                "case_ids": ["CASE-CLM-005"],
+            },
+        )
+        with self.assertRaisesRegex(ValueError, "snapshot"):
+            build_reviewer_decision_export(self.evaluation, report, queue, receipt)
 
 
 if __name__ == "__main__":

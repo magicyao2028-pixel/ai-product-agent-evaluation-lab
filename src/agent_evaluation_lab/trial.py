@@ -14,6 +14,7 @@ from .reviews import (
     create_adjudication_receipt,
     load_review_annotations,
 )
+from .reviewer_decisions import build_reviewer_decision_export
 
 
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
@@ -99,6 +100,7 @@ def run_trial(root: Path) -> dict[str, Any]:
     review = analyze_review_annotations(evaluation, load_review_annotations(root / "data/review_annotations.json"))
     review_queue = build_review_queue(evaluation, review)
     adjudication = create_adjudication_receipt(review, load_json_object(root / "data/adjudication_receipt.json"))
+    decision_export = build_reviewer_decision_export(evaluation, review, review_queue, adjudication)
     evidence = validate_evidence_index(root, load_json_object(root / "evidence/evidence_index.json"))
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
@@ -112,6 +114,10 @@ def run_trial(root: Path) -> dict[str, Any]:
         and claim["automated_failure_events"][0]["code"] == "SAFETY_FORBIDDEN_CONTENT"
         and len(review_queue["items"]) >= 1
         and adjudication["effective_decision"] == "blocked_by_automated_gate"
+        and decision_export["decision_count"] == len(review_queue["items"])
+        and decision_export["decisions_applied"] is False
+        and decision_export["release_authority"] is False
+        and decision_export["decisions"][0]["recommended_action"] == "fix_candidate_and_rerun_evaluation"
     )
     return {
         "schema_version": "1.0",
@@ -129,6 +135,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "feedback_regression": feedback,
         "review_queue": review_queue,
         "adjudication_receipt": adjudication,
+        "reviewer_decision_export": decision_export,
         "review_history": history,
         "external_intake": external,
         "evidence_index": evidence,
@@ -146,6 +153,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Safety failure preserved: `{report['core_flow']['preserved_failure_code']}`", "",
         f"- Review-queue items: {len(report['review_queue']['items'])}",
         f"- Adjudication effective decision: `{report['adjudication_receipt']['effective_decision']}`", "",
+        f"- Reviewer decision items: {report['reviewer_decision_export']['decision_count']} (applied: {report['reviewer_decision_export']['decisions_applied']})", "",
         f"- Review-history entries: {report['review_history']['entry_count']} (release authority: {report['review_history']['release_authority']})", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ])

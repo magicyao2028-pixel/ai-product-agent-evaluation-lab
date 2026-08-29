@@ -10,6 +10,8 @@
 - Review-queue items: 1
 - Adjudication effective decision: `blocked_by_automated_gate`
 
+- Reviewer decision items: 1 (applied: False)
+
 - Review-history entries: 2 (release authority: False)
 
 ## Pilot boundary

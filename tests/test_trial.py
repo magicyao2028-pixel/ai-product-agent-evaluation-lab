@@ -25,10 +25,12 @@ class TrialReadinessTests(unittest.TestCase):
         self.assertFalse(report["core_flow"]["automated_release_passed"])
         self.assertEqual(report["core_flow"]["disagreements"], 1)
         self.assertEqual(report["core_flow"]["claim_effective_decision"], "blocked_by_automated_gate")
+        self.assertFalse(report["reviewer_decision_export"]["decisions_applied"])
+        self.assertEqual(report["reviewer_decision_export"]["decision_count"], len(report["review_queue"]["items"]))
 
-    def test_evidence_index_links_seven_real_claims(self):
+    def test_evidence_index_links_ten_real_claims(self):
         result = validate_evidence_index(ROOT, load_json_object(ROOT / "evidence/evidence_index.json"))
-        self.assertEqual(len(result), 9)
+        self.assertEqual(len(result), 10)
 
     def test_external_intake_rejects_short_sha_and_false_adoption(self):
         payload = load_json_object(ROOT / "evidence/external_intake.json")
