@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .evaluator import evaluate_files
-from .review_history import validate_review_history
+from .review_history import summarize_review_history, validate_review_history
 from .reviews import (
     analyze_review_annotations,
     build_review_queue,
@@ -105,6 +105,7 @@ def run_trial(root: Path) -> dict[str, Any]:
     external = validate_external_intake(load_json_object(root / "evidence/external_intake.json"))
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
     history = validate_review_history(load_json_object(root / "data/review_history.json"))
+    history_summary = summarize_review_history(load_json_object(root / "data/review_history.json"))
     claim = next(item for item in review["cases"] if item["case_id"] == "CASE-CLM-005")
     core_passed = (
         evaluation["release_gate"]["passed"] is False
@@ -123,7 +124,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "schema_version": "1.0",
         "trial_id": "TRIAL-EVAL-001",
         "source_data": "synthetic",
-        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False,
+        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False and history_summary["evaluation_mutated"] is False,
         "core_flow": {
             "passed": core_passed,
             "automated_release_passed": evaluation["release_gate"]["passed"],
@@ -137,6 +138,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "adjudication_receipt": adjudication,
         "reviewer_decision_export": decision_export,
         "review_history": history,
+        "review_history_summary": history_summary,
         "external_intake": external,
         "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
@@ -155,6 +157,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Adjudication effective decision: `{report['adjudication_receipt']['effective_decision']}`", "",
         f"- Reviewer decision items: {report['reviewer_decision_export']['decision_count']} (applied: {report['reviewer_decision_export']['decisions_applied']})", "",
         f"- Review-history entries: {report['review_history']['entry_count']} (release authority: {report['review_history']['release_authority']})", "",
+        f"- Review-history visibility: {'PASS' if not report['review_history_summary']['evaluation_mutated'] else 'FAIL'}", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ])
 

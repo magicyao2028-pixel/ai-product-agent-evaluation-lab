@@ -14,6 +14,8 @@
 
 - Review-history entries: 2 (release authority: False)
 
+- Review-history visibility: PASS
+
 ## Pilot boundary
 
 - Synthetic evaluation runs and reviewer annotations only; no production accuracy or adoption claim.

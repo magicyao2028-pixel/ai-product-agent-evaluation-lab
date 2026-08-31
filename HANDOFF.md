@@ -2,8 +2,8 @@
 
 ## Current state
 
-- Release stage: v0.8 trial-readiness prototype.
-- Maintenance completed: M7/10.
+- Release stage: v0.9 trial-readiness prototype.
+- Maintenance completed: M8/10.
 - Core flow: suite + rubric + candidate → automated failure evidence → separate human annotations → consensus/disagreement → non-overridable safety gate → deterministic trial evidence.
 - Sample result: 4/5 cases pass; a deliberate prohibited-claim failure blocks release.
 - Public data: synthetic only.
@@ -28,9 +28,14 @@ PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 - Added a chronological, append-only review-history fixture and validator. It preserves snapshot digests and review status while explicitly granting no release authority.
 - Added a deterministic reviewer-decision export that maps blocked, disputed and review-blocked cases to bounded next actions without applying decisions or changing automated evidence.
 
+## M8 result
+
+- Added a deterministic review-history visibility summary with status and source counts.
+- Summary output is descriptive only and cannot alter evaluation evidence or release authority.
+
 ## Next maintenance round
 
-M8 can add bounded history/feedback replay visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
+M9 can add bounded feedback replay visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
 
 ## Known limitations
 

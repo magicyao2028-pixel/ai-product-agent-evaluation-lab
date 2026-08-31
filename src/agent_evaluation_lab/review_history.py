@@ -60,3 +60,25 @@ def validate_review_history(payload: dict[str, Any]) -> dict[str, Any]:
         "release_authority": False,
         "authority_boundary": "History records preserve review evidence and cannot approve, block or mutate an evaluation run.",
     }
+
+
+def summarize_review_history(payload: dict[str, Any]) -> dict[str, Any]:
+    """Expose reviewer-history trends without changing any evaluation decision."""
+    validated = validate_review_history(payload)
+    status_counts: dict[str, int] = {}
+    source_counts: dict[str, int] = {}
+    for entry in validated["entries"]:
+        status = entry["release_status"]
+        status_counts[status] = status_counts.get(status, 0) + 1
+        source = entry["source_type"]
+        source_counts[source] = source_counts.get(source, 0) + 1
+    return {
+        "summary_version": "0.9",
+        "entry_count": validated["entry_count"],
+        "status_counts": dict(sorted(status_counts.items())),
+        "source_counts": dict(sorted(source_counts.items())),
+        "latest_batch_id": validated["latest_batch_id"],
+        "release_authority": False,
+        "evaluation_mutated": False,
+        "boundary": "The summary describes historical review evidence only; it cannot approve, block or mutate an evaluation run.",
+    }

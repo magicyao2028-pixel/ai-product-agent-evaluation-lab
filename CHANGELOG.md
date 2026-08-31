@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.0 - 2026-08-31
+
+- Added review-history visibility summary with deterministic status/source counts.
+- Preserved immutable automated evidence and zero release authority.
+
 ## 0.8.0 - 2026-08-29
 
 - added a deterministic reviewer-decision export for blocked, disputed and review-blocked cases;

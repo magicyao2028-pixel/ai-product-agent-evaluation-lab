@@ -98,6 +98,21 @@
     "release_authority": false,
     "authority_boundary": "History records preserve review evidence and cannot approve, block or mutate an evaluation run."
   },
+  "review_history_summary": {
+    "summary_version": "0.9",
+    "entry_count": 2,
+    "status_counts": {
+      "blocked_by_automated_gate": 1,
+      "needs_adjudication": 1
+    },
+    "source_counts": {
+      "synthetic": 2
+    },
+    "latest_batch_id": "SYN-REVIEW-BATCH-002",
+    "release_authority": false,
+    "evaluation_mutated": false,
+    "boundary": "The summary describes historical review evidence only; it cannot approve, block or mutate an evaluation run."
+  },
   "external_intake": [
     {
       "repository": "https://github.com/argilla-io/argilla",
@@ -187,6 +202,15 @@
       "artifact_paths": [
         "src/agent_evaluation_lab/reviewer_decisions.py",
         "tests/test_reviews.py",
+        "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-HISTORY-SUMMARY-001",
+      "artifact_paths": [
+        "src/agent_evaluation_lab/review_history.py",
+        "data/review_history.json",
         "reports/trial_report.json"
       ],
       "passed": true

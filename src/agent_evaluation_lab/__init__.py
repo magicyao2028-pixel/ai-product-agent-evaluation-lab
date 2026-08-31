@@ -5,7 +5,7 @@ from .evaluator import evaluate_files, evaluate_run, write_report
 from .rubric import RubricConfig, default_rubric, load_rubric
 from .reviews import analyze_review_annotations, analyze_review_files, write_review_report
 from .reviewer_decisions import build_reviewer_decision_export
-from .review_history import validate_review_history
+from .review_history import summarize_review_history, validate_review_history
 from .trend import analyze_files, analyze_runs, write_trend
 from .taxonomy import EvaluationContractError
 
@@ -27,6 +27,7 @@ __all__ = [
     "write_review_report",
     "build_reviewer_decision_export",
     "validate_review_history",
+    "summarize_review_history",
     "write_trend",
 ]
 __version__ = "0.8.0"
