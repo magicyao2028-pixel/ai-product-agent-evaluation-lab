@@ -35,7 +35,7 @@ PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 
 ## Next maintenance round
 
-M10 can add bounded feedback replay visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
+M10 can add bounded replay-result reconciliation and regression-pack visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
 
 ## M9 result
 
