@@ -31,7 +31,7 @@ class TrialReadinessTests(unittest.TestCase):
 
     def test_evidence_index_links_eleven_real_claims(self):
         result = validate_evidence_index(ROOT, load_json_object(ROOT / "evidence/evidence_index.json"))
-        self.assertEqual(len(result), 11)
+        self.assertEqual(len(result), 12)
 
     def test_external_intake_rejects_short_sha_and_false_adoption(self):
         payload = load_json_object(ROOT / "evidence/external_intake.json")

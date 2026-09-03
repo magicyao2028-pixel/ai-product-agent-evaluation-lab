@@ -15,6 +15,7 @@ from .reviews import (
     load_review_annotations,
 )
 from .reviewer_decisions import build_reviewer_decision_export
+from .feedback_replay import replay_reviewer_feedback
 
 
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
@@ -106,6 +107,10 @@ def run_trial(root: Path) -> dict[str, Any]:
     feedback = validate_feedback(root, load_json_object(root / "evidence/feedback_case.json"))
     history = validate_review_history(load_json_object(root / "data/review_history.json"))
     history_summary = summarize_review_history(load_json_object(root / "data/review_history.json"))
+    reviewer_feedback = replay_reviewer_feedback(
+        json.loads((root / "data/reviewer_feedback.json").read_text(encoding="utf-8")),
+        review,
+    )
     claim = next(item for item in review["cases"] if item["case_id"] == "CASE-CLM-005")
     core_passed = (
         evaluation["release_gate"]["passed"] is False
@@ -124,7 +129,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "schema_version": "1.0",
         "trial_id": "TRIAL-EVAL-001",
         "source_data": "synthetic",
-        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False and history_summary["evaluation_mutated"] is False,
+        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False and history_summary["evaluation_mutated"] is False and reviewer_feedback["replayed_count"] == 1 and reviewer_feedback["excluded_count"] == 1 and reviewer_feedback["evaluation_mutated"] is False and reviewer_feedback["release_authority"] is False,
         "core_flow": {
             "passed": core_passed,
             "automated_release_passed": evaluation["release_gate"]["passed"],
@@ -139,6 +144,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "reviewer_decision_export": decision_export,
         "review_history": history,
         "review_history_summary": history_summary,
+        "reviewer_feedback": reviewer_feedback,
         "external_intake": external,
         "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
@@ -158,6 +164,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Reviewer decision items: {report['reviewer_decision_export']['decision_count']} (applied: {report['reviewer_decision_export']['decisions_applied']})", "",
         f"- Review-history entries: {report['review_history']['entry_count']} (release authority: {report['review_history']['release_authority']})", "",
         f"- Review-history visibility: {'PASS' if not report['review_history_summary']['evaluation_mutated'] else 'FAIL'}", "",
+        f"- Reviewer feedback replay: {'PASS' if report['reviewer_feedback']['replayed_count'] == 1 and report['reviewer_feedback']['excluded_count'] == 1 else 'FAIL'}", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ])
 

@@ -6,6 +6,7 @@ from .rubric import RubricConfig, default_rubric, load_rubric
 from .reviews import analyze_review_annotations, analyze_review_files, write_review_report
 from .reviewer_decisions import build_reviewer_decision_export
 from .review_history import summarize_review_history, validate_review_history
+from .feedback_replay import replay_reviewer_feedback
 from .trend import analyze_files, analyze_runs, write_trend
 from .taxonomy import EvaluationContractError
 
@@ -28,6 +29,7 @@ __all__ = [
     "build_reviewer_decision_export",
     "validate_review_history",
     "summarize_review_history",
+    "replay_reviewer_feedback",
     "write_trend",
 ]
-__version__ = "0.8.0"
+__version__ = "1.0.0"

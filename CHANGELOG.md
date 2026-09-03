@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 - 2026-09-03
+
+- added bounded replay of accepted synthetic reviewer feedback;
+- preserved immutable automated evidence and zero release-authority boundaries;
+- added fail-closed validation and trial evidence for pending-feedback exclusion.
+
 ## 0.9.0 - 2026-08-31
 
 - Added review-history visibility summary with deterministic status/source counts.

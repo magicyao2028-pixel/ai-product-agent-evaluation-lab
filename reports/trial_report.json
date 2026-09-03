@@ -113,6 +113,36 @@
     "evaluation_mutated": false,
     "boundary": "The summary describes historical review evidence only; it cannot approve, block or mutate an evaluation run."
   },
+  "reviewer_feedback": {
+    "schema_version": "1.0",
+    "record_count": 2,
+    "status_counts": {
+      "accepted": 1,
+      "pending": 1
+    },
+    "replayed_count": 1,
+    "excluded_count": 1,
+    "replayed": [
+      {
+        "feedback_id": "EVAL-FB-001",
+        "annotation_id": "ANN-001",
+        "status": "accepted",
+        "passed": true
+      }
+    ],
+    "excluded": [
+      {
+        "feedback_id": "EVAL-FB-002",
+        "annotation_id": "ANN-004",
+        "status": "pending",
+        "passed": true
+      }
+    ],
+    "evaluation_mutated": false,
+    "release_authority": false,
+    "external_actions_executed": 0,
+    "boundary": "Only accepted synthetic feedback is replayed as review metadata; it cannot change automated evidence or release authority."
+  },
   "external_intake": [
     {
       "repository": "https://github.com/argilla-io/argilla",
@@ -211,6 +241,16 @@
       "artifact_paths": [
         "src/agent_evaluation_lab/review_history.py",
         "data/review_history.json",
+        "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-FEEDBACK-REPLAY-001",
+      "artifact_paths": [
+        "src/agent_evaluation_lab/feedback_replay.py",
+        "data/reviewer_feedback.json",
+        "tests/test_feedback_replay.py",
         "reports/trial_report.json"
       ],
       "passed": true

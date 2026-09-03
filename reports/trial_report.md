@@ -16,6 +16,8 @@
 
 - Review-history visibility: PASS
 
+- Reviewer feedback replay: PASS
+
 ## Pilot boundary
 
 - Synthetic evaluation runs and reviewer annotations only; no production accuracy or adoption claim.

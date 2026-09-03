@@ -2,8 +2,8 @@
 
 ## Current state
 
-- Release stage: v0.9 trial-readiness prototype.
-- Maintenance completed: M8/10.
+- Release stage: v1.0 trial-readiness prototype.
+- Maintenance completed: M9/10.
 - Core flow: suite + rubric + candidate → automated failure evidence → separate human annotations → consensus/disagreement → non-overridable safety gate → deterministic trial evidence.
 - Sample result: 4/5 cases pass; a deliberate prohibited-claim failure blocks release.
 - Public data: synthetic only.
@@ -35,7 +35,13 @@ PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 
 ## Next maintenance round
 
-M9 can add bounded feedback replay visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
+M10 can add bounded feedback replay visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
+
+## M9 result
+
+- Added replay of accepted synthetic reviewer feedback as regression metadata; pending and rejected records remain excluded.
+- Duplicate IDs, unknown annotation references, invalid dates and applied feedback fail closed.
+- Replay cannot mutate evaluation evidence or grant release authority.
 
 ## Known limitations
 

@@ -1,0 +1,18 @@
+[
+  {
+    "feedback_id": "EVAL-FB-001",
+    "annotation_id": "ANN-001",
+    "recorded_on": "2026-08-25",
+    "status": "accepted",
+    "summary": "Synthetic reviewer requested a clearer explanation of the approved return-evidence path.",
+    "applied": false
+  },
+  {
+    "feedback_id": "EVAL-FB-002",
+    "annotation_id": "ANN-004",
+    "recorded_on": "2026-08-26",
+    "status": "pending",
+    "summary": "Synthetic risk reviewer suggested an additional prohibited-claim regression case.",
+    "applied": false
+  }
+]
