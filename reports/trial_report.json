@@ -278,7 +278,7 @@
       "artifact_paths": [
         "src/agent_evaluation_lab/regression_pack.py",
         "tests/test_regression_pack.py",
-        "src/agent_evaluation_lab/trial.py"
+        "reports/trial_report.json"
       ],
       "passed": true
     }
