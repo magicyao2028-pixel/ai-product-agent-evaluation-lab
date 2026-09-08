@@ -3,7 +3,7 @@
 ## Current state
 
 - Release stage: v1.0 trial-readiness prototype.
-- Maintenance completed: M9/10.
+- Maintenance completed: M10/10.
 - Core flow: suite + rubric + candidate → automated failure evidence → separate human annotations → consensus/disagreement → non-overridable safety gate → deterministic trial evidence.
 - Sample result: 4/5 cases pass; a deliberate prohibited-claim failure blocks release.
 - Public data: synthetic only.
@@ -33,15 +33,21 @@ PYTHONPATH=src python -m agent_evaluation_lab.trial_cli
 - Added a deterministic review-history visibility summary with status and source counts.
 - Summary output is descriptive only and cannot alter evaluation evidence or release authority.
 
-## Next maintenance round
+## Maintenance status
 
-M10 can add bounded replay-result reconciliation and regression-pack visibility, only if it preserves immutable automated evidence and the same synthetic/public-safe boundary.
+The planned ten-round maintenance sequence is complete. Any later work requires a new bounded contract and must preserve immutable automated evidence and the same synthetic/public-safe boundary.
 
 ## M9 result
 
 - Added replay of accepted synthetic reviewer feedback as regression metadata; pending and rejected records remain excluded.
 - Duplicate IDs, unknown annotation references, invalid dates and applied feedback fail closed.
 - Replay cannot mutate evaluation evidence or grant release authority.
+
+## M10 result
+
+- Added a deterministic future regression pack derived only from accepted feedback whose annotations and evaluation cases still exist.
+- Unknown references, duplicate feedback, non-accepted records, mutated reports and authoritative replay inputs fail closed.
+- Pack generation remains descriptive: it executes no regression, mutates no evaluation and grants no release authority.
 
 ## Known limitations
 

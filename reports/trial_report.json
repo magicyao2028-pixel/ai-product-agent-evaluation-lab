@@ -143,6 +143,24 @@
     "external_actions_executed": 0,
     "boundary": "Only accepted synthetic feedback is replayed as review metadata; it cannot change automated evidence or release authority."
   },
+  "feedback_regression_pack": {
+    "schema_version": "1.0",
+    "item_count": 1,
+    "items": [
+      {
+        "feedback_id": "EVAL-FB-001",
+        "annotation_id": "ANN-001",
+        "case_id": "CASE-RET-001",
+        "expected_gate": "unchanged",
+        "effective_decision": "eligible_for_human_release_review",
+        "execution_status": "not_executed"
+      }
+    ],
+    "evaluation_mutated": false,
+    "release_authority": false,
+    "regression_execution_executed": false,
+    "boundary": "The pack identifies accepted feedback for a future regression run; it does not edit evidence, execute cases or grant release authority."
+  },
   "external_intake": [
     {
       "repository": "https://github.com/argilla-io/argilla",
@@ -252,6 +270,15 @@
         "data/reviewer_feedback.json",
         "tests/test_feedback_replay.py",
         "reports/trial_report.json"
+      ],
+      "passed": true
+    },
+    {
+      "claim_id": "EVAL-REGRESSION-PACK-001",
+      "artifact_paths": [
+        "src/agent_evaluation_lab/regression_pack.py",
+        "tests/test_regression_pack.py",
+        "src/agent_evaluation_lab/trial.py"
       ],
       "passed": true
     }

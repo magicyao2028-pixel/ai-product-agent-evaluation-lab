@@ -7,6 +7,7 @@ from .reviews import analyze_review_annotations, analyze_review_files, write_rev
 from .reviewer_decisions import build_reviewer_decision_export
 from .review_history import summarize_review_history, validate_review_history
 from .feedback_replay import replay_reviewer_feedback
+from .regression_pack import build_feedback_regression_pack
 from .trend import analyze_files, analyze_runs, write_trend
 from .taxonomy import EvaluationContractError
 
@@ -30,6 +31,7 @@ __all__ = [
     "validate_review_history",
     "summarize_review_history",
     "replay_reviewer_feedback",
+    "build_feedback_regression_pack",
     "write_trend",
 ]
 __version__ = "1.0.0"

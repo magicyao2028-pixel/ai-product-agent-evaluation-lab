@@ -18,6 +18,8 @@
 
 - Reviewer feedback replay: PASS
 
+- Feedback regression pack: 1 item(s), executed: False
+
 ## Pilot boundary
 
 - Synthetic evaluation runs and reviewer annotations only; no production accuracy or adoption claim.

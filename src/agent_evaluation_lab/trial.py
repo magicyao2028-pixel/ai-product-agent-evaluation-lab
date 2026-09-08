@@ -16,6 +16,7 @@ from .reviews import (
 )
 from .reviewer_decisions import build_reviewer_decision_export
 from .feedback_replay import replay_reviewer_feedback
+from .regression_pack import build_feedback_regression_pack
 
 
 COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}")
@@ -111,6 +112,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         json.loads((root / "data/reviewer_feedback.json").read_text(encoding="utf-8")),
         review,
     )
+    regression_pack = build_feedback_regression_pack(review, reviewer_feedback)
     claim = next(item for item in review["cases"] if item["case_id"] == "CASE-CLM-005")
     core_passed = (
         evaluation["release_gate"]["passed"] is False
@@ -129,7 +131,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "schema_version": "1.0",
         "trial_id": "TRIAL-EVAL-001",
         "source_data": "synthetic",
-        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False and history_summary["evaluation_mutated"] is False and reviewer_feedback["replayed_count"] == 1 and reviewer_feedback["excluded_count"] == 1 and reviewer_feedback["evaluation_mutated"] is False and reviewer_feedback["release_authority"] is False,
+        "overall_passed": core_passed and feedback["passed"] and all(x["passed"] for x in evidence + external) and history["entry_count"] == 2 and history["release_authority"] is False and history_summary["evaluation_mutated"] is False and reviewer_feedback["replayed_count"] == 1 and reviewer_feedback["excluded_count"] == 1 and reviewer_feedback["evaluation_mutated"] is False and reviewer_feedback["release_authority"] is False and regression_pack["item_count"] == 1 and regression_pack["regression_execution_executed"] is False,
         "core_flow": {
             "passed": core_passed,
             "automated_release_passed": evaluation["release_gate"]["passed"],
@@ -145,6 +147,7 @@ def run_trial(root: Path) -> dict[str, Any]:
         "review_history": history,
         "review_history_summary": history_summary,
         "reviewer_feedback": reviewer_feedback,
+        "feedback_regression_pack": regression_pack,
         "external_intake": external,
         "evidence_index": evidence,
         "boundaries": load_json_object(root / "evidence/evidence_index.json")["boundaries"],
@@ -165,6 +168,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Review-history entries: {report['review_history']['entry_count']} (release authority: {report['review_history']['release_authority']})", "",
         f"- Review-history visibility: {'PASS' if not report['review_history_summary']['evaluation_mutated'] else 'FAIL'}", "",
         f"- Reviewer feedback replay: {'PASS' if report['reviewer_feedback']['replayed_count'] == 1 and report['reviewer_feedback']['excluded_count'] == 1 else 'FAIL'}", "",
+        f"- Feedback regression pack: {report['feedback_regression_pack']['item_count']} item(s), executed: {report['feedback_regression_pack']['regression_execution_executed']}", "",
         "## Pilot boundary", "", *[f"- {item}" for item in report["boundaries"]], "",
     ])
 

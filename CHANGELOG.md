@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 - 2026-09-08
+
+- added a deterministic future regression pack from accepted synthetic reviewer feedback;
+- required current annotation and evaluation-case references and rejected duplicates or authoritative inputs;
+- retained zero execution, immutable evaluation evidence and zero release-authority boundaries.
+
 ## 1.0.0 - 2026-09-03
 
 - added bounded replay of accepted synthetic reviewer feedback;
